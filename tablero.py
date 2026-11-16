@@ -1,6 +1,5 @@
 from colorama import Fore, Style, init
 
-# Inicializar colorama una sola vez fuera de las funciones
 init(autoreset=True)
 
 class Tablero:
@@ -87,21 +86,20 @@ class Tablero:
     def preparar_fichas_debug(self):
         self.tablero = [["_" for i in range(8)] for j in range(8)]
         
-        self.tablero[4][1] = '♖' # Torre
-        self.tablero[4][2] = '♘' # Caballo
-        self.tablero[4][4] = '♗' # Alfil
-        self.tablero[5][3] = '♕' # Reina
-        self.tablero[6][4] = '♔' # Rey
-        self.tablero[6][0] = '♙' # Peón blanco (fila inicial)
+        self.tablero[4][1] = '♖' 
+        self.tablero[4][2] = '♘'
+        self.tablero[4][4] = '♗' 
+        self.tablero[5][3] = '♕' 
+        self.tablero[6][4] = '♔' 
+        self.tablero[6][0] = '♙' 
 
         # Fichas negras
-        self.tablero[3][1] = '♜' # Torre
-        self.tablero[3][2] = '♞' # Caballo
-        self.tablero[3][4] = '♝' # Alfil
-        self.tablero[2][3] = '♛' # Reina
-        self.tablero[1][4] = '♚' # Rey
-        self.tablero[1][0] = '♟' # Peón negro (fila inicial)
+        self.tablero[3][1] = '♜' 
+        self.tablero[3][2] = '♞' 
+        self.tablero[3][4] = '♝' 
+        self.tablero[2][3] = '♛' 
+        self.tablero[1][4] = '♚' 
+        self.tablero[1][0] = '♟' 
 
-        # Ajustar los contadores
         self.fichas_blancas = 6
         self.fichas_negras = 6

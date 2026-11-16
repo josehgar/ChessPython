@@ -177,23 +177,19 @@ class Mover:
 
         return p1 + p2
 
-    # Hecho por el pana Claude
     def __movs_peon(self, oi: int, oj: int):
         movs = []
         es_blanco = self.__es_blanca(self.t.tablero[oi][oj])
         direccion = -1 if es_blanco else 1
         fila_inicial = 6 if es_blanco else 1
 
-        # Avance de 1 casilla (solo si está vacía)
         ai = oi + direccion
         if 0 <= ai <= 7 and self.t.tablero[ai][oj] == "_":
             movs.append((ai, oj))
 
-            # Avance de 2 casillas desde la fila inicial (con la casilla intermedia libre)
             if oi == fila_inicial and self.t.tablero[oi + 2 * direccion][oj] == "_":
                 movs.append((oi + 2 * direccion, oj))
 
-        # Capturas en diagonal (solo con pieza enemiga)
         for dj in (-1, 1):
             ci, cj = oi + direccion, oj + dj
             if 0 <= ci <= 7 and 0 <= cj <= 7:
