@@ -1,6 +1,6 @@
 from colorama import Fore, Style, init
 from fichas_mover import Mover
-fichas_negras = ['♖', '♘', '♗', '♕', '♔', '♙']
+from fichas import Ficha
 
 init(autoreset=True)
 
@@ -32,7 +32,7 @@ class Tablero:
     def __formatear_casilla(self, casilla):
         if casilla == "_":
             return "_  "
-        elif casilla in fichas_negras:
+        elif Ficha(casilla).name.endswith("_NEGRO"):
             return Style.DIM + Fore.WHITE + casilla + "  "
         else:
             return Style.BRIGHT + Fore.WHITE + casilla + "  "

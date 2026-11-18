@@ -31,3 +31,6 @@ def destino_correcto(turno_blanco: bool, d: str, t: Tablero, movs):
     fila, col = traducir_input_a_indices(d)
 
     return (fila, col) in movs
+
+def indices_validos(oi: int, oj: int):
+    return 0 < oi < 7 and 0 < oj < 7
