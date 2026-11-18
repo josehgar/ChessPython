@@ -6,6 +6,9 @@ fichas_negras = ['♖', '♘', '♗', '♕', '♔', '♙']
 def traducir_input_a_indices(mov: str):
     return (int(mov[1]) - 1, ord(mov[0].upper()) - 65)
 
+def traducir_indices_a_input(i: int, j: int):
+    return f"{chr(j + 65)}{i + 1}"
+
 def formato_correcto(i: str):
     return len(i) == 2 and i[0] in columnas_ajedrez and i[1] in "12345678"
 

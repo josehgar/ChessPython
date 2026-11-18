@@ -1,7 +1,5 @@
-from tablero import Tablero
-
 class Mover:
-    def __init__(self, t: Tablero):
+    def __init__(self, t):
         self.t = t
         self.primer_mov_peon = {}
         for i in range(1, 10 ,5):
@@ -36,7 +34,7 @@ class Mover:
 
     def __pieza_mismo_equipo(self, oi: int, oj: int, di: int, dj: int):
         return (self.t.tablero[di][dj] != "_" 
-        and self.__es_blanca(self.t.tablero[oi][oj]) == self.__es_blanca(self.t.tablero[di][dj]))
+            and self.__es_blanca(self.t.tablero[oi][oj]) == self.__es_blanca(self.t.tablero[di][dj]))
             
     def __movs_torre(self, oi: int, oj: int):
         ficha_ref = self.t.tablero[oi][oj]

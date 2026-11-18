@@ -1,4 +1,6 @@
 from colorama import Fore, Style, init
+from fichas_mover import Mover
+fichas_negras = ['♖', '♘', '♗', '♕', '♔', '♙']
 
 init(autoreset=True)
 
@@ -30,7 +32,7 @@ class Tablero:
     def __formatear_casilla(self, casilla):
         if casilla == "_":
             return "_  "
-        elif casilla in ['♖', '♘', '♗', '♕', '♔', '♙']:
+        elif casilla in fichas_negras:
             return Style.DIM + Fore.WHITE + casilla + "  "
         else:
             return Style.BRIGHT + Fore.WHITE + casilla + "  "
@@ -103,3 +105,26 @@ class Tablero:
 
         self.fichas_blancas = 6
         self.fichas_negras = 6
+
+    def hay_jaque(self):
+        rey_objetivo = "♚" if self.turno_blanco else "♔"
+        pos_rey = None
+        movs_enemigos = []
+        m = Mover(self)
+
+        for i, fila in enumerate(self.tablero):
+            for j, casilla in enumerate(fila):
+                if casilla == rey_objetivo:
+                    pos_rey = (i, j)
+                elif casilla != "_":
+                    es_enemiga = (casilla in fichas_negras) if self.turno_blanco else (casilla not in fichas_negras)
+                    if es_enemiga:
+                        movs_enemigos.extend(m.obtener_movs(i, j))
+
+        return pos_rey in movs_enemigos
+
+    def hay_jaque_mate(self):
+        pass
+
+    def promocion():
+        pass
