@@ -2,6 +2,7 @@ import subprocess
 from tablero import Tablero
 from fichas_mover import Mover
 import input_manager as im
+from fichas import Ficha
 
 t = Tablero()
 m = Mover(t)
@@ -9,7 +10,7 @@ m = Mover(t)
 def limpiar():
     subprocess.run("cls", shell=True) # Limpiar pantalla
 
-t.preparar_fichas_debug() # Preparar fichas de inicio 
+t.preparar_tablero() # Preparar fichas de inicio 
 
 while True:
     cancelado = False
@@ -20,7 +21,7 @@ while True:
     s = ""
 
     hay_jaque = t.hay_jaque()
-    rey = "♚" if t.turno_blanco else "♔"
+    rey = Ficha.REY_BLANCO.value if t.turno_blanco else Ficha.REY_NEGRO.value
 
     if hay_jaque:
         for i, fila in enumerate(t.tablero):
@@ -43,7 +44,7 @@ while True:
     fin = False
     cancelado = False
     while not fin:
-        d = input("Introduce ficha de destino: ")
+        d = input("Introduce ficha de destino ('exit' para cancelar): ")
         if d == "exit":
             fin = True
             cancelado = True

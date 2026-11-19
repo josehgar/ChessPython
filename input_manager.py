@@ -1,7 +1,7 @@
 from tablero import Tablero
+from fichas import Ficha
 
 columnas_ajedrez = "abcdefghABCDEFGH"
-fichas_negras = ['♖', '♘', '♗', '♕', '♔', '♙']
 
 def traducir_input_a_indices(mov: str):
     return (int(mov[1]) - 1, ord(mov[0].upper()) - 65)
@@ -22,7 +22,7 @@ def origen_correcto(turno_blanco: bool, o: str, t: Tablero):
     if casilla == '_':
         return False
 
-    return (casilla not in fichas_negras) if turno_blanco else (casilla in fichas_negras)
+    return Ficha.es_blanco(casilla) if turno_blanco else not Ficha.es_blanco(casilla)
 
 def destino_correcto(turno_blanco: bool, d: str, t: Tablero, movs):
 
@@ -31,6 +31,3 @@ def destino_correcto(turno_blanco: bool, d: str, t: Tablero, movs):
     fila, col = traducir_input_a_indices(d)
 
     return (fila, col) in movs
-
-def indices_validos(oi: int, oj: int):
-    return 0 < oi < 7 and 0 < oj < 7

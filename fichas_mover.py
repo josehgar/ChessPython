@@ -1,4 +1,3 @@
-from input_manager import indices_validos
 from fichas import Ficha
 
 class Mover:
@@ -13,10 +12,10 @@ class Mover:
 
 
     def mover_ficha(self, oi: int, oj: int, di: int, dj: int):
-        if (not indices_validos(oi, oj) and not indices_validos(di, dj)):
+        if (not self.indices_validos(oi, oj) and not self.indices_validos(di, dj)):
             raise ValueError("Valor fuera del límite")
 
-        elif self.t.tablero[oi][oj] == "_":
+        elif self.t.tablero[oi][oj] == Ficha.VACIA.value:
             raise ValueError("Ficha no existente")
 
         movs_disponibles = self.obtener_movs(oi, oj) # Movimientos a los que se puede mover
@@ -26,22 +25,23 @@ class Mover:
 
         # Control de ficha capturada para actualizar contador
         ficha = self.t.tablero[di][dj]
-        if ficha != "_" and self.__es_blanca(ficha):
-            self.t.fichas_blancas -= 1
-        else:
-            self.t.fichas_negras -= 1
+        if ficha != Ficha.VACIA.value:
+            if Ficha.es_blanco(ficha):
+                self.t.fichas_blancas -= 1
+            else:
+                self.t.fichas_negras -= 1
 
         # Vaciar posición de origen de ficha movida
         self.t.tablero[di][dj] = self.t.tablero[oi][oj]
-        self.t.tablero[oi][oj] = "_"
+        self.t.tablero[oi][oj] = Ficha.VACIA.value
 
-    def __es_blanca(self, ficha):
-        return Ficha(ficha).name.endswith("BLANCO")
+    def indices_validos(self, oi: int, oj: int):
+        return 0 <= oi <= 7 and 0 <= oj <= 7
 
     def __pieza_mismo_equipo(self, oi: int, oj: int, di: int, dj: int):
         # Si son del mismo equipo, son del mismo color
-        return (self.t.tablero[di][dj] != "_" 
-            and self.__es_blanca(self.t.tablero[oi][oj]) == self.__es_blanca(self.t.tablero[di][dj]))
+        return (self.t.tablero[di][dj] != Ficha.VACIA.value 
+            and Ficha.es_blanco(self.t.tablero[oi][oj]) == Ficha.es_blanco(self.t.tablero[di][dj]))
             
     def __movs_torre(self, oi: int, oj: int):
         movs = [] # Lista en la que se añadirán los movimientos legales de la torre
@@ -51,7 +51,7 @@ class Mover:
             i = oi + delta_i
             j = oj + delta_j
 
-            while indices_validos(i,j):
+            while self.indices_validos(i,j):
                 casilla = self.t.tablero[i][j]
 
                 if casilla == '_':
@@ -74,7 +74,7 @@ class Mover:
             i = oi + delta_i
             j = oj + delta_j
 
-            while indices_validos(i,j):
+            while self.indices_validos(i,j):
                 casilla = self.t.tablero[i][j]
 
                 if casilla == '_':
@@ -98,13 +98,13 @@ class Mover:
 
     def __movs_peon(self, oi: int, oj: int) -> list[tuple[int, int]]:
         movs = []
-        es_blanco = self.__es_blanca(self.t.tablero[oi][oj])
+        es_blanco = Ficha.es_blanco(self.t.tablero[oi][oj])
         direccion = -1 if es_blanco else 1
         fila_inicial = 6 if es_blanco else 1
 
     # Avance simple y doble
         i1 = oi + direccion
-        if indices_validos(i1, oj) and self.t.tablero[i1][oj] == Ficha.VACIA.value:
+        if self.indices_validos(i1, oj) and self.t.tablero[i1][oj] == Ficha.VACIA.value:
             movs.append((i1, oj))
 
             i2 = oi + 2 * direccion
@@ -116,7 +116,7 @@ class Mover:
             ci = oi + direccion
             cj = oj + dj
 
-            if (indices_validos(ci, cj)
+            if (self.indices_validos(ci, cj)
                 and self.t.tablero[ci][cj] != Ficha.VACIA.value
                 and not self.__pieza_mismo_equipo(oi, oj, ci, cj)):
                 movs.append((ci, cj))
@@ -141,7 +141,7 @@ class Mover:
         }
 
         ficha = Ficha(self.t.tablero[oi][oj]) # Obtener enum de la ficha
-        lista_deltas = deltas_mov[ficha]
+        lista_deltas = deltas_mov[ficha.value]
         lista_movs = []
 
         if lista_deltas == None:
@@ -158,7 +158,7 @@ class Mover:
                 di = oi + delta[0]
                 dj = oj + delta[1]
 
-                if (indices_validos(di, dj) and not self.__pieza_mismo_equipo(oi, oj, di, dj)):
+                if (self.indices_validos(di, dj) and not self.__pieza_mismo_equipo(oi, oj, di, dj)):
                     lista_movs.append((di, dj))
 
         return lista_movs

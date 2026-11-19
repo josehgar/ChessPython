@@ -32,7 +32,7 @@ class Tablero:
     def __formatear_casilla(self, casilla):
         if casilla == "_":
             return "_  "
-        elif Ficha(casilla).name.endswith("_NEGRO"):
+        elif not Ficha.es_blanco(casilla):
             return Style.DIM + Fore.WHITE + casilla + "  "
         else:
             return Style.BRIGHT + Fore.WHITE + casilla + "  "
@@ -117,7 +117,7 @@ class Tablero:
                 if casilla == rey_objetivo:
                     pos_rey = (i, j)
                 elif casilla != "_":
-                    es_enemiga = (casilla in fichas_negras) if self.turno_blanco else (casilla not in fichas_negras)
+                    es_enemiga = not Ficha.es_blanco(casilla) if self.turno_blanco else Ficha.es_blanco(casilla)
                     if es_enemiga:
                         movs_enemigos.extend(m.obtener_movs(i, j))
 

@@ -14,3 +14,6 @@ class Ficha(Enum):
     REY_BLANCO = "♚"
     PEON_NEGRO = "♙"
     PEON_BLANCO = "♟"
+
+    def es_blanco(ficha: str):
+        return Ficha(ficha) != Ficha.VACIA and Ficha(ficha).name.endswith("_BLANCO")
